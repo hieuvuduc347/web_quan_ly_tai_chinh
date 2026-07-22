@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản Lý Tài Chính</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+<!-- Header -->
+    <div class="header">
+        <h1>Dashboard Quản Lý Tài Chính</h1>
+        <p>Hệ thống quản lý tài chính cá nhân</p>
+    </div>
+<!-- Thống Kê -->
+    <div class="container">
+        <div class="card">
+            <h4>Tổng Thu Nhập</h4>
+             <div class ="content-card1">
+                <strong>+{{ tong_thu }} VND</strong>
+             </div>
+        </div>
+        <div class="card">
+            <h4>Tổng Chi Tiêu</h4> 
+            <div class="content-card2">
+                <strong>-{{ tong_chi }} VND</strong>
+            </div>
+        </div>
+        <div class="card">
+            <h4>Số Dư Hiện Tại</h4> 
+            <div class="content-card3">
+                <strong>{{ so_du }} VND</strong>
+            </div>
+        </div>
+    </div>
+<!-- Thêm Chi Tiêu-->
+    <div class="add">
+        <h3>Thêm giao dịch mới</h3>
+        <hr style=" border: none; border-top: 2px solid; margin: 4px -20px">
+        <form action="/add_financial" method="POST">
+           <table>
+               <thead>
+                <tr>
+                   <th>Tên Giao Dịch</th>
+                    <th>Số Tiền</th>
+                   <th>Loại</th>
+                   </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" name="TEN_KHOAN_CHI" placeholder="VD: Mua bánh mì" required>
+                        </td>
+                        <td>
+                            <input type="number" name="SO_TIEN" placeholder="VD: Nhập số tiền" min="0" required>
+                        </td>
+                        <td>
+                            <label for="LOAI_GD"></label>
+                            <select style="width:120px" name="LOAI_GD" id="LOAI_GD" required>
+                                <option>Thu Nhập</option>
+                                <option>Chi Tiêu</option>
+                            </select>
+                        </td>
+                        <td><button type="submit">Thêm giao dịch</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+<!-- Thêm Lịch Sử Giao Dịch-->
+    <div class="history">
+        <h2>Lịch Sử Giao Dịch</h2>
+        <hr style="border:none; border-bottom: 2px solid; margin: 4px -20px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên giao dịch</th>
+                    <th>Loại</th>
+                    <th>Số tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for gd in ds_giao_dich %}
+                <tr>
+                    <td>{{ gd[1] }}</td>
+                    <td>
+                        {% if gd[2] == 'Thu Nhập' %}
+                        <span style="color:rgb(46, 234, 46)">Thu Nhập</span>
+                        {% else %}
+                        <span style="color:red">Chi Tiêu</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if gd[2] == 'Thu Nhập' %}+ {{ gd[3] }}
+                        {% else %}- {{ gd[3] }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
