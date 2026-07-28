@@ -56,7 +56,7 @@ def add_financial():
         "LOAI_GD": loai,
         "SO_TIEN": so_tien
     }    
-    supabase.table("ChiTieu").insert("data").execute()
+    supabase.table("ChiTieu").insert(data).execute()
 
     #3. Sau khi lưu xong, reload để cập nhật dữ liệu
     return redirect('/')
